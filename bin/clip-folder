@@ -1,0 +1,9 @@
+#!/bin/bash -eu
+
+# args not equal 2
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 <prompt> <folder>"
+  exit 1
+fi
+
+docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache -v $2:/workspace/images bash-clip python3 main.py "$1"
