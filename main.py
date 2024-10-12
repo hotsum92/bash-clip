@@ -10,13 +10,11 @@ parser = argparse.ArgumentParser()
 parser.add_argument('prompt', type=str)
 args = parser.parse_args()
 
-prompt = args.prompt.split(',')
-
-
 model_name = "ViT-B/32"
 device = "cuda" if torch.cuda.is_available() else "cpu"
 images_path = './images'
-keys = "a photo,a picture"
+
+prompt = args.prompt.split(',')
 
 model, preprocess = clip.load(model_name, device=device)
 text = clip.tokenize(prompt).to(device)
