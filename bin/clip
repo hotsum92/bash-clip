@@ -1,0 +1,21 @@
+#!/bin/bash -eu
+
+if [ "$#" -lt 2 ]; then
+  echo "Usage: $0 <prompt> <image>..."
+  exit 1
+fi
+
+prompt="$1"
+shift
+
+paths=""
+
+for path in "$@"; do
+  if [ ! -f "$path" ]; then
+    continue
+  fi
+
+  paths=$(echo "$paths" "-v $(realpath "$path"):/workspace/images/$(basename "$path")")
+done
+
+docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 main.py "$prompt"
