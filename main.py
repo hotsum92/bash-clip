@@ -3,6 +3,7 @@ import torch
 import clip
 from PIL import Image
 import argparse
+import sys
 
 parser = argparse.ArgumentParser()
 parser.add_argument('prompt', type=str)
@@ -20,7 +21,14 @@ text = clip.tokenize(prompt).to(device)
 
 for root, dirs, files in os.walk(images_path):
     for file in files:
-        image = preprocess(Image.open(os.path.join(root, file))).unsqueeze(0).to(device)
+
+        try:
+            image = Image.open(os.path.join(root, file))
+        except:
+            sys.stderr.write("Error opening image file: " + file + "\n")
+            continue
+
+        image = preprocess(image).unsqueeze(0).to(device)
 
         with torch.no_grad():
             image_features = model.encode_image(image)
