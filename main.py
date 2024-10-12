@@ -1,5 +1,3 @@
-# list files ./images
-
 import os
 import torch
 import clip
