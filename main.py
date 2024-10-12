@@ -25,7 +25,6 @@ for root, dirs, files in os.walk(images_path):
         try:
             image = Image.open(os.path.join(root, file))
         except:
-            sys.stderr.write("Error opening image file: " + file + "\n")
             continue
 
         image = preprocess(image).unsqueeze(0).to(device)
