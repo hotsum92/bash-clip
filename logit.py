@@ -5,6 +5,7 @@ from PIL import Image
 import argparse
 import sys
 import numpy as np
+import re
 
 parser = argparse.ArgumentParser()
 parser.add_argument('prompt', type=str)
@@ -12,7 +13,7 @@ args = parser.parse_args()
 
 model_name = "ViT-B/32"
 device = "cuda" if torch.cuda.is_available() else "cpu"
-images_path = './images'
+images_path = './images/'
 
 prompt = args.prompt.split(',')
 
@@ -36,4 +37,7 @@ for root, dirs, files in os.walk(images_path):
             logits_per_image, logits_per_text = model(image, text)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
 
-        print(",".join(np.append(file, probs.astype(str))))
+        path = re.sub('^\./images/', '', root)
+        path = os.path.join(path, file)
+
+        print(",".join(np.append(path, probs.astype(str))))
