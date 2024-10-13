@@ -11,4 +11,4 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
-COPY ./main.py /workspace/main.py
+COPY ./logit.py /workspace/logit.py
