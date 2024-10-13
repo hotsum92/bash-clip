@@ -1,6 +1,5 @@
 #!/bin/bash -eu
 
-# args not equal 2
 if [ "$#" -lt 2 ]; then
   echo "Usage: $0 <prompt> <folder>"
   exit 1
