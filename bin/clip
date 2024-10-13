@@ -1,23 +1,33 @@
 #!/bin/bash -eu
 
 if [ "$#" -lt 2 ]; then
-  echo "Usage: $0 <prompt> <image>..."
+  echo "Usage: $0 <prompt> <image>... or <folder>"
   exit 1
 fi
 
-prompt="$1"
-shift
+if [ -d "$2" ]; then
+  prompt="$1"
+  norm="$(echo "$2" | sed 's|/$||')"
 
-paths=""
+  echo 'file,'"$prompt"
 
-for path in "$@"; do
-  if [ ! -f "$path" ]; then
-    continue
-  fi
+  docker run -it --gpus all -v bash_clip_cache:/root/.cache -v "$norm":/workspace/images bash-clip python3 logit.py "$prompt" \
+  | sed 's|^|'"$norm"'/|'
+else
+  prompt="$1"
+  shift
 
-  paths=$(echo "$paths" "-v $(realpath "$path"):/workspace/images/$(basename "$path")")
-done
+  paths=""
 
-echo 'file,'"$prompt"
+  for path in "$@"; do
+    if [ ! -f "$path" ]; then
+      continue
+    fi
 
-docker run -it --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 logit.py "$prompt"
+    paths=$(echo "$paths" "-v $(realpath "$path"):/workspace/images/$(basename "$path")")
+  done
+
+  echo 'file,'"$prompt"
+
+  docker run -it --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 logit.py "$prompt"
+fi
