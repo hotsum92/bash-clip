@@ -14,7 +14,6 @@ device = "cuda" if torch.cuda.is_available() else "cpu"
 images_path = './images'
 
 prompt = args.prompt.split(',')
-print("file," + ",".join(prompt))
 
 model, preprocess = clip.load(model_name, device=device)
 text = clip.tokenize(prompt).to(device)

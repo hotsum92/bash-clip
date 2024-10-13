@@ -6,6 +6,10 @@ if [ "$#" -lt 2 ]; then
   exit 1
 fi
 
+prompt="$1"
 norm="$(echo "$2" | sed 's|/$||')"
 
-docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache -v "$norm":/workspace/images bash-clip python3 logit.py "$1" | sed '2,$s|^|'"$norm"'/|'
+echo 'file,'"$prompt"
+
+docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache -v "$norm":/workspace/images bash-clip python3 logit.py "$prompt" \
+| sed 's|^|'"$norm"'/|'

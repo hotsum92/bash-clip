@@ -18,4 +18,6 @@ for path in "$@"; do
   paths=$(echo "$paths" "-v $(realpath "$path"):/workspace/images/$(basename "$path")")
 done
 
+echo 'file,'"$prompt"
+
 docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 logit.py "$prompt"
