@@ -12,3 +12,4 @@ COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 
 COPY ./logit.py /workspace/logit.py
+COPY ./similarity.py /workspace/similarity.py
