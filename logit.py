@@ -4,6 +4,7 @@ import clip
 from PIL import Image
 import argparse
 import sys
+import numpy as np
 
 parser = argparse.ArgumentParser()
 parser.add_argument('prompt', type=str)
@@ -35,4 +36,4 @@ for root, dirs, files in os.walk(images_path):
             logits_per_image, logits_per_text = model(image, text)
             probs = logits_per_image.softmax(dim=-1).cpu().numpy()
 
-        print(file + "," + ",".join(probs.flatten().astype(str)))
+        print(",".join(np.append(file, probs.astype(str))))
