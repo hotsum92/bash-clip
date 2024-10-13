@@ -24,7 +24,9 @@ else
       continue
     fi
 
-    paths=$(echo "$paths" "-v $(realpath "$path"):/workspace/images/$(basename "$path")")
+    norm="$(echo "$path" | sed 's|/$||' | sed 's|^\./||' | sed 's|^\.\./||' | sed 's|^/||')"
+
+    paths=$(echo "$paths" "-v $path:/workspace/images/$norm")
   done
 
   echo 'file,'"$prompt"
