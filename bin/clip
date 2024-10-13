@@ -20,4 +20,4 @@ done
 
 echo 'file,'"$prompt"
 
-docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 logit.py "$prompt"
+docker run -it --gpus all -v bash_clip_cache:/root/.cache $paths bash-clip python3 logit.py "$prompt"

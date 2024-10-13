@@ -11,5 +11,5 @@ norm="$(echo "$2" | sed 's|/$||')"
 
 echo 'file,'"$prompt"
 
-docker run -it --rm --gpus all -v bash_clip_cache:/root/.cache -v "$norm":/workspace/images bash-clip python3 logit.py "$prompt" \
+docker run -it --gpus all -v bash_clip_cache:/root/.cache -v "$norm":/workspace/images bash-clip python3 logit.py "$prompt" \
 | sed 's|^|'"$norm"'/|'
